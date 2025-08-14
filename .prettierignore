@@ -1,0 +1,9 @@
+dist
+build
+node_modules
+*.log
+.DS_Store
+coverage
+.nyc_output
+*.min.js
+*.min.css
