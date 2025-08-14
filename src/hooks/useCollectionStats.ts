@@ -44,7 +44,9 @@ export function useCollectionStats({
   // Calculate overall collection statistics
   const collectionStats = useMemo(() => {
     const uniqueArtists = new Set(records.map(record => record.artist)).size
-    const uniqueGenres = new Set(records.map(record => record.genre)).size
+    // Flatten all genres from all records to count unique genres
+    const allGenres = records.flatMap(record => record.genres)
+    const uniqueGenres = new Set(allGenres).size
     const uniqueLabels = new Set(records.map(record => record.label)).size
 
     return {

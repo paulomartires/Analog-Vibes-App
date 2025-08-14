@@ -12,11 +12,10 @@ export function transformDiscogsMasterRelease(discogsMaster: DiscogsMasterReleas
       ? discogsMaster.artists.map(a => a.name).join(', ')
       : 'Unknown Artist'
 
-  // Extract genre (combine genres and styles)
+  // Extract genres only (not styles) from Discogs
   const genres = discogsMaster.genres || []
-  const styles = discogsMaster.styles || []
-  const allGenres = [...genres, ...styles]
-  const genre = allGenres.length > 0 ? allGenres[0] : 'Unknown'
+  // Filter out empty or invalid genres
+  const validGenres = genres.filter(g => g && g.trim() && g !== 'Unknown')
 
   // Extract producer from extraartists
   const producer = discogsMaster.extraartists?.find(
@@ -36,7 +35,7 @@ export function transformDiscogsMasterRelease(discogsMaster: DiscogsMasterReleas
     id: discogsMaster.id.toString(),
     title: discogsMaster.title || 'Unknown Title',
     artist,
-    genre,
+    genres: validGenres.length > 0 ? validGenres : ['Unknown'],
     description: discogsMaster.notes
       ? cleanText(discogsMaster.notes)
       : `A classic release by ${artist}${masterYear ? ` from ${masterYear}` : ''}.`,
@@ -164,15 +163,14 @@ export function transformDiscogsToVinylRecord(
         : 'Unknown Artist'
 
     const genres = releaseData.genres || []
-    const styles = releaseData.styles || []
-    const allGenres = [...genres, ...styles]
-    const genre = allGenres.length > 0 ? allGenres[0] : 'Unknown'
+    // Filter out empty or invalid genres (only use genres, not styles)
+    const validGenres = genres.filter(g => g && g.trim() && g !== 'Unknown')
 
     masterRelease = {
       id: masterId,
       title: releaseData.title || 'Unknown Title',
       artist,
-      genre,
+      genres: validGenres.length > 0 ? validGenres : ['Unknown'],
       description: createDescription(releaseData, discogsRelease),
       producer: extractProducer(discogsRelease),
       recordingDate: extractRecordingDate(discogsRelease),
@@ -200,7 +198,7 @@ export function transformDiscogsToVinylRecord(
     artist: masterRelease.artist, // From master
     year: finalYear, // Smart fallback: master year || release year || 'Unknown'
     label: vinylRelease.label, // From your release
-    genre: masterRelease.genre, // From master
+    genres: masterRelease.genres, // From master (now array)
     catalogNumber: vinylRelease.catalogNumber, // From your release
     coverUrl: vinylRelease.coverUrl, // From your release
     tracks: vinylRelease.tracks, // From your release
@@ -405,7 +403,7 @@ export function validateVinylRecord(record: VinylRecord): boolean {
     record.artist &&
     record.year &&
     record.label &&
-    record.genre &&
+    record.genres && record.genres.length > 0 &&
     record.coverUrl &&
     record.tracks &&
     record.tracks.length > 0

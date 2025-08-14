@@ -6,7 +6,8 @@
   "description": "Vinyl record collection app with Discogs integration",
   "scripts": {
     "dev": "vite",
-    "build": "tsc && vite build",
+    "build": "tsc --noEmit && vite build",
+    "build:production": "vite build",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "lint:fix": "eslint . --ext ts,tsx --fix",
     "format": "prettier --write \"src/**/*.{js,jsx,ts,tsx,json,css,md}\"",
@@ -27,6 +28,7 @@
     "@tailwindcss/postcss": "^4.1.11",
     "autoprefixer": "^10.4.21",
     "axios": "^1.11.0",
+    "browserslist": "^4.25.2",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "date-fns": "^4.1.0",

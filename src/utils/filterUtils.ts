@@ -19,7 +19,7 @@ export function getDecade(year: string): string {
  * @returns Array of unique genres sorted alphabetically
  */
 export function getUniqueGenres(records: VinylRecord[]): string[] {
-  const genres = new Set(records.map(record => record.genre));
+  const genres = new Set(records.flatMap(record => record.genres));
   return Array.from(genres).sort();
 }
 
@@ -67,7 +67,7 @@ export function getFilterStats(
 ) {
   // Calculate unique artists and genres in filtered results
   const uniqueArtists = new Set(filteredRecords.map(record => record.artist)).size;
-  const uniqueGenres = new Set(filteredRecords.map(record => record.genre)).size;
+  const uniqueGenres = new Set(filteredRecords.flatMap(record => record.genres)).size;
   
   // Determine filter display text
   let filterText = "";

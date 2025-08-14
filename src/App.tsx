@@ -335,7 +335,7 @@ export default function App() {
                 </h3>
                 <p className="leading-relaxed font-medium text-white/70 hover:text-bn-electric-teal transition-colors duration-300 cursor-pointer">
                   Born from curiosity, shaped by design, debugged with determination by Paulo
-                  Mártires × Figma Make × Claude Code
+                  Mártires × Figma Make × Claude Code × Supabase × Vercel
                 </p>
               </div>
               <div className="flex flex-col items-center md:items-end">

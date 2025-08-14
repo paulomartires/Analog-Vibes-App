@@ -86,7 +86,7 @@ export function VinylCardOverlay({
           </p>
 
           {/* Year and Genre */}
-          <div className="flex items-center justify-center space-x-4">
+          <div className="flex flex-wrap items-center justify-center gap-3">
             <div
               className="px-4 py-2 text-sm font-black tracking-[0.15em] uppercase rounded-sm"
               style={{
@@ -99,7 +99,7 @@ export function VinylCardOverlay({
             </div>
 
             <div
-              className="px-4 py-2 text-sm font-black tracking-[0.15em] uppercase rounded-sm"
+              className="px-4 py-2 text-sm font-black tracking-[0.15em] uppercase rounded-sm max-w-[200px]"
               style={{
                 backgroundColor: 'rgba(255, 255, 255, 0.25)',
                 color: 'white',
@@ -107,7 +107,12 @@ export function VinylCardOverlay({
                 boxShadow: '0 2px 8px rgba(0, 0, 0, 0.4)',
               }}
             >
-              {record.genre}
+              <span className="truncate block">
+                {record.genres.length > 2 
+                  ? `${record.genres.slice(0, 2).join(', ')}...`
+                  : record.genres.join(', ')
+                }
+              </span>
             </div>
           </div>
         </div>

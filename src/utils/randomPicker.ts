@@ -80,7 +80,7 @@ function getUniqueDecades(records: VinylRecord[]): string[] {
 
 // Get unique genres from records
 function getUniqueGenres(records: VinylRecord[]): string[] {
-  const genres = new Set(records.map(record => record.genre))
+  const genres = new Set(records.flatMap(record => record.genres))
   return Array.from(genres).sort()
 }
 
@@ -140,7 +140,7 @@ export function getRandomSuggestion(options: RandomPickerOptions): SuggestionRes
       if (currentGenre || currentDecade) {
         availableRecords = records.filter(record => {
           const matchesGenre =
-            !currentGenre || record.genre.toLowerCase() === currentGenre.toLowerCase()
+            !currentGenre || record.genres.some(g => g.toLowerCase() === currentGenre.toLowerCase())
           const matchesDecade = !currentDecade || getDecade(record.year) === currentDecade
           return matchesGenre && matchesDecade
         })
@@ -149,7 +149,7 @@ export function getRandomSuggestion(options: RandomPickerOptions): SuggestionRes
           // Fallback to genre only, then decade only, then all
           if (currentGenre) {
             availableRecords = records.filter(
-              r => r.genre.toLowerCase() === currentGenre.toLowerCase()
+              r => r.genres.some(g => g.toLowerCase() === currentGenre.toLowerCase())
             )
           }
           if (availableRecords.length === 0 && currentDecade) {
@@ -201,7 +201,7 @@ export function getRandomSuggestion(options: RandomPickerOptions): SuggestionRes
       if (targetGenres.length === 0) targetGenres = genres
 
       const randomGenre = targetGenres[Math.floor(Math.random() * targetGenres.length)]
-      availableRecords = records.filter(record => record.genre === randomGenre)
+      availableRecords = records.filter(record => record.genres.includes(randomGenre))
       reason = `Exploring your ${randomGenre} collection`
       break
     }

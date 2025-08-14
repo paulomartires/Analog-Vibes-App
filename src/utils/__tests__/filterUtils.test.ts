@@ -15,7 +15,7 @@ const mockRecords: VinylRecord[] = [
     title: 'Blue Train',
     artist: 'John Coltrane',
     year: '1957',
-    genre: 'Jazz',
+    genres: ['Jazz'],
     label: 'Blue Note',
     coverUrl: 'test.jpg',
     catalogNumber: 'BLP 4001',
@@ -26,7 +26,7 @@ const mockRecords: VinylRecord[] = [
     title: 'Kind of Blue',
     artist: 'Miles Davis',
     year: '1959',
-    genre: 'Jazz',
+    genres: ['Jazz'],
     label: 'Columbia',
     coverUrl: 'test2.jpg',
     catalogNumber: 'CL 1355',
@@ -37,7 +37,7 @@ const mockRecords: VinylRecord[] = [
     title: 'Pet Sounds',
     artist: 'The Beach Boys',
     year: '1966',
-    genre: 'Pop',
+    genres: ['Pop'],
     label: 'Capitol',
     coverUrl: 'test3.jpg',
     catalogNumber: 'T 2458',
@@ -48,7 +48,7 @@ const mockRecords: VinylRecord[] = [
     title: 'Abbey Road',
     artist: 'The Beatles',
     year: '1969',
-    genre: 'Rock',
+    genres: ['Rock'],
     label: 'Apple',
     coverUrl: 'test4.jpg',
     catalogNumber: 'PCS 7088',
@@ -59,7 +59,7 @@ const mockRecords: VinylRecord[] = [
     title: 'Unknown Album',
     artist: 'Unknown Artist',
     year: 'invalid',
-    genre: 'Jazz',
+    genres: ['Jazz'],
     label: 'Unknown',
     coverUrl: 'test5.jpg',
     catalogNumber: 'UNK 001',
@@ -153,7 +153,7 @@ describe('filterUtils', () => {
   })
 
   describe('getFilterStats', () => {
-    const jazzRecords = mockRecords.filter(r => r.genre === 'Jazz')
+    const jazzRecords = mockRecords.filter(r => r.genres.includes('Jazz'))
     const sixtyRecords = mockRecords.filter(r => getDecade(r.year) === '1960s')
 
     it('should calculate correct stats for unfiltered collection', () => {
@@ -184,7 +184,7 @@ describe('filterUtils', () => {
 
     it('should calculate correct stats with both filters', () => {
       const bothFiltersRecords = mockRecords.filter(
-        r => r.genre === 'Jazz' && getDecade(r.year) === '1950s'
+        r => r.genres.includes('Jazz') && getDecade(r.year) === '1950s'
       )
       const stats = getFilterStats(mockRecords, bothFiltersRecords, 'Jazz', '1950s')
       expect(stats.totalRecords).toBe(2)

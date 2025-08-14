@@ -27,7 +27,7 @@ const mockRecords: VinylRecord[] = [
     title: 'Blue Train',
     artist: 'John Coltrane',
     year: '1957',
-    genre: 'Jazz',
+    genres: ['Jazz'],
     label: 'Blue Note',
     coverUrl: 'test.jpg',
     catalogNumber: 'BLP 4001',
@@ -38,7 +38,7 @@ const mockRecords: VinylRecord[] = [
     title: 'Kind of Blue',
     artist: 'Miles Davis',
     year: '1959',
-    genre: 'Jazz',
+    genres: ['Jazz'],
     label: 'Columbia',
     coverUrl: 'test2.jpg',
     catalogNumber: 'CL 1355',
@@ -49,7 +49,7 @@ const mockRecords: VinylRecord[] = [
     title: 'Pet Sounds',
     artist: 'The Beach Boys',
     year: '1966',
-    genre: 'Pop',
+    genres: ['Pop'],
     label: 'Capitol',
     coverUrl: 'test3.jpg',
     catalogNumber: 'T 2458',
@@ -60,7 +60,7 @@ const mockRecords: VinylRecord[] = [
     title: 'Abbey Road',
     artist: 'The Beatles',
     year: '1969',
-    genre: 'Rock',
+    genres: ['Rock'],
     label: 'Apple',
     coverUrl: 'test4.jpg',
     catalogNumber: 'PCS 7088',
@@ -127,7 +127,7 @@ describe('randomPicker', () => {
         })
 
         expect(result).toBeTruthy()
-        expect(result!.record.genre).toBe('Jazz')
+        expect(result!.record.genres).toContain('Jazz')
         expect(result!.reason).toContain('Jazz')
       })
 
@@ -154,7 +154,7 @@ describe('randomPicker', () => {
         })
 
         expect(result).toBeTruthy()
-        expect(result!.record.genre).toBe('Jazz')
+        expect(result!.record.genres).toContain('Jazz')
         expect(['1957', '1959']).toContain(result!.record.year)
         expect(result!.reason).toContain('Jazz • 1950s')
       })
@@ -228,7 +228,7 @@ describe('randomPicker', () => {
         })
 
         expect(result).toBeTruthy()
-        expect(result!.record.genre).toBe('Jazz')
+        expect(result!.record.genres).toContain('Jazz')
         expect(result!.reason).toContain('Jazz collection')
       })
 
@@ -244,7 +244,7 @@ describe('randomPicker', () => {
         })
 
         expect(result).toBeTruthy()
-        expect(result!.record.genre).not.toBe('Jazz')
+        expect(result!.record.genres).not.toContain('Jazz')
       })
     })
 

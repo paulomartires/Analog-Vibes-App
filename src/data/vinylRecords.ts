@@ -9,7 +9,7 @@ export interface MasterRelease {
   id: string;
   title: string;
   artist: string;
-  genre: string;
+  genres: string[]; // Changed from single genre to array
   description?: string; // Original album notes/description
   producer?: string;
   recordingDate?: string; // When the album was originally recorded
@@ -33,7 +33,7 @@ export interface VinylRecord {
   artist: string;
   year: string; // From master release
   label: string; // From your release
-  genre: string;
+  genres: string[]; // Changed from single genre to array
   catalogNumber: string;
   coverUrl: string; // From your release
   tracks: Track[]; // From your release
@@ -41,6 +41,7 @@ export interface VinylRecord {
   producer?: string; // From master release
   recordingDate?: string; // From master release
   releaseDate?: string; // From your release (NEW)
+  dateAdded?: string; // When added to collection (from database created_at)
   
   // Internal references (not used by UI)
   _masterRelease?: MasterRelease;
@@ -54,7 +55,7 @@ export const vinylRecords: VinylRecord[] = [
     artist: "Lee Morgan",
     year: "1963",
     label: "Blue Note",
-    genre: "Jazz",
+    genres: ["Jazz"],
     catalogNumber: "BLP 4157",
     coverUrl: "https://images.unsplash.com/photo-1571974599782-87624638275d?w=400&h=400&fit=crop&auto=format&q=80",
     producer: "Alfred Lion",
@@ -74,7 +75,7 @@ export const vinylRecords: VinylRecord[] = [
     artist: "Horace Silver",
     year: "1964",
     label: "Blue Note",
-    genre: "Jazz",
+    genres: ["Jazz"],
     catalogNumber: "BLP 4185",
     coverUrl: "https://images.unsplash.com/photo-1571974599782-87624638275d?w=400&h=400&fit=crop&auto=format&q=80",
     producer: "Alfred Lion",
@@ -94,7 +95,7 @@ export const vinylRecords: VinylRecord[] = [
     artist: "Wayne Shorter",
     year: "1964",
     label: "Blue Note",
-    genre: "Jazz",
+    genres: ["Jazz"],
     catalogNumber: "BLP 4194",
     coverUrl: "https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=400&h=400&fit=crop&auto=format&q=80",
     producer: "Alfred Lion",
@@ -114,7 +115,7 @@ export const vinylRecords: VinylRecord[] = [
     artist: "Andrew Hill",
     year: "1964",
     label: "Blue Note",
-    genre: "Jazz",
+    genres: ["Jazz"],
     catalogNumber: "BLP 4167",
     coverUrl: "https://images.unsplash.com/photo-1458560871784-56d23406c091?w=400&h=400&fit=crop&auto=format&q=80",
     producer: "Alfred Lion",
@@ -134,7 +135,7 @@ export const vinylRecords: VinylRecord[] = [
     artist: "Eric Dolphy",
     year: "1964",
     label: "Blue Note",
-    genre: "Jazz",
+    genres: ["Jazz"],
     catalogNumber: "BLP 4163",
     coverUrl: "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=400&h=400&fit=crop&sat=-100&auto=format&q=80",
     producer: "Alfred Lion",
@@ -154,7 +155,7 @@ export const vinylRecords: VinylRecord[] = [
     artist: "Larry Young",
     year: "1965",
     label: "Blue Note",
-    genre: "Jazz",
+    genres: ["Jazz"],
     catalogNumber: "BLP 4221",
     coverUrl: "https://images.unsplash.com/photo-1571974599782-87624638275d?w=400&h=400&fit=crop&sat=50&auto=format&q=80",
     producer: "Alfred Lion",
@@ -174,7 +175,7 @@ export const vinylRecords: VinylRecord[] = [
     artist: "Donald Byrd",
     year: "1961",
     label: "Blue Note",
-    genre: "Jazz",
+    genres: ["Jazz"],
     catalogNumber: "BLP 4075",
     coverUrl: "https://images.unsplash.com/photo-1458560871784-56d23406c091?w=400&h=400&fit=crop&sat=-50&auto=format&q=80",
     producer: "Alfred Lion",
@@ -194,7 +195,7 @@ export const vinylRecords: VinylRecord[] = [
     artist: "Dexter Gordon",
     year: "1962",
     label: "Blue Note",
-    genre: "Jazz",
+    genres: ["Jazz"],
     catalogNumber: "BLP 4112",
     coverUrl: "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=400&h=400&fit=crop&auto=format&q=80",
     producer: "Alfred Lion",
@@ -214,7 +215,7 @@ export const vinylRecords: VinylRecord[] = [
     artist: "Herbie Hancock",
     year: "1965",
     label: "Blue Note",
-    genre: "Jazz",
+    genres: ["Jazz"],
     catalogNumber: "BLP 4195",
     coverUrl: "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=400&h=400&fit=crop&hue=240&sat=80&auto=format&q=80",
     producer: "Alfred Lion",
@@ -234,7 +235,7 @@ export const vinylRecords: VinylRecord[] = [
     artist: "John Coltrane",
     year: "1957",
     label: "Blue Note",
-    genre: "Jazz",
+    genres: ["Jazz"],
     catalogNumber: "BLP 1577",
     coverUrl: "https://images.unsplash.com/photo-1571974599782-87624638275d?w=400&h=400&fit=crop&hue=180&sat=60&auto=format&q=80",
     producer: "Alfred Lion",
@@ -254,7 +255,7 @@ export const vinylRecords: VinylRecord[] = [
     artist: "Herbie Hancock",
     year: "1964",
     label: "Blue Note",
-    genre: "Jazz",
+    genres: ["Jazz"],
     catalogNumber: "BLP 4175",
     coverUrl: "https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=400&h=400&fit=crop&hue=60&sat=70&auto=format&q=80",
     producer: "Alfred Lion",
@@ -273,7 +274,7 @@ export const vinylRecords: VinylRecord[] = [
     artist: "Lee Morgan",
     year: "1965",
     label: "Blue Note",
-    genre: "Jazz",
+    genres: ["Jazz"],
     catalogNumber: "BLP 4222",
     coverUrl: "https://images.unsplash.com/photo-1458560871784-56d23406c091?w=400&h=400&fit=crop&hue=30&sat=90&auto=format&q=80",
     producer: "Alfred Lion",
@@ -293,7 +294,7 @@ export const vinylRecords: VinylRecord[] = [
     artist: "Kenny Burrell",
     year: "1963",
     label: "Blue Note",
-    genre: "Jazz",
+    genres: ["Jazz"],
     catalogNumber: "BLP 4123",
     coverUrl: "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=400&h=400&fit=crop&hue=220&sat=70&brightness=-20&auto=format&q=80",
     producer: "Alfred Lion",
@@ -313,7 +314,7 @@ export const vinylRecords: VinylRecord[] = [
     artist: "Donald Byrd",
     year: "1963",
     label: "Blue Note",
-    genre: "Jazz",
+    genres: ["Jazz"],
     catalogNumber: "BLP 4124",
     coverUrl: "https://images.unsplash.com/photo-1571974599782-87624638275d?w=400&h=400&fit=crop&hue=280&sat=80&auto=format&q=80",
     producer: "Alfred Lion",
@@ -333,7 +334,7 @@ export const vinylRecords: VinylRecord[] = [
     artist: "Joe Henderson",
     year: "1963",
     label: "Blue Note",
-    genre: "Jazz",
+    genres: ["Jazz"],
     catalogNumber: "BLP 4140",
     coverUrl: "https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=400&h=400&fit=crop&hue=160&sat=85&auto=format&q=80",
     producer: "Alfred Lion",
@@ -354,7 +355,7 @@ export const vinylRecords: VinylRecord[] = [
     artist: "Miles Davis",
     year: "1959",
     label: "Columbia",
-    genre: "Jazz",
+    genres: ["Jazz"],
     catalogNumber: "CL 1355",
     coverUrl: "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=400&h=400&fit=crop&hue=200&sat=100&auto=format&q=80",
     producer: "Teo Macero",
@@ -374,7 +375,7 @@ export const vinylRecords: VinylRecord[] = [
     artist: "Miles Davis",
     year: "1970",
     label: "Columbia",
-    genre: "Jazz",
+    genres: ["Jazz"],
     catalogNumber: "GP 26",
     coverUrl: "https://images.unsplash.com/photo-1571974599782-87624638275d?w=400&h=400&fit=crop&hue=350&sat=90&auto=format&q=80",
     producer: "Teo Macero",
@@ -395,7 +396,7 @@ export const vinylRecords: VinylRecord[] = [
     artist: "Miles Davis",
     year: "1957",
     label: "Columbia",
-    genre: "Jazz",
+    genres: ["Jazz"],
     catalogNumber: "CL 1041",
     coverUrl: "https://images.unsplash.com/photo-1458560871784-56d23406c091?w=400&h=400&fit=crop&hue=120&sat=75&auto=format&q=80",
     producer: "George Avakian",
@@ -419,7 +420,7 @@ export const vinylRecords: VinylRecord[] = [
     artist: "Miles Davis",
     year: "1969",
     label: "Columbia",
-    genre: "Jazz",
+    genres: ["Jazz"],
     catalogNumber: "CS 9875",
     coverUrl: "https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=400&h=400&fit=crop&hue=280&sat=60&auto=format&q=80",
     producer: "Teo Macero",

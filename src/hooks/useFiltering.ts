@@ -33,16 +33,18 @@ export function useFiltering({ records }: UseFilteringProps): UseFilteringReturn
   const filteredAndSortedRecords = useMemo(() => {
     let filtered = records
 
-    // Apply genre filter
+    // Apply genre filter (check if any genre in the array matches)
     if (filters.genre) {
       filtered = filtered.filter(
-        record => record.genre.toLowerCase() === filters.genre!.toLowerCase()
+        record => record.genres.some(genre => 
+          genre.toLowerCase() === (filters.genre || '').toLowerCase()
+        )
       )
     }
 
     // Apply decade filter
     if (filters.decade) {
-      filtered = filtered.filter(record => recordMatchesDecade(record, filters.decade!))
+      filtered = filtered.filter(record => recordMatchesDecade(record, filters.decade || ''))
     }
 
     // Apply search filter
@@ -51,7 +53,8 @@ export function useFiltering({ records }: UseFilteringProps): UseFilteringReturn
         record =>
           record.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
           record.artist.toLowerCase().includes(searchTerm.toLowerCase()) ||
-          record.label.toLowerCase().includes(searchTerm.toLowerCase())
+          record.label.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          record.genres.some(genre => genre.toLowerCase().includes(searchTerm.toLowerCase()))
       )
     }
 
@@ -64,11 +67,19 @@ export function useFiltering({ records }: UseFilteringProps): UseFilteringReturn
           return a.title.localeCompare(b.title)
         case 'year':
           return parseInt(b.year) - parseInt(a.year) // Newest first
-        case 'genre':
-          return a.genre.localeCompare(b.genre)
+        case 'genre': {
+          // Sort by first genre in the array
+          const aGenre = a.genres.length > 0 ? a.genres[0] : 'Unknown'
+          const bGenre = b.genres.length > 0 ? b.genres[0] : 'Unknown'
+          return aGenre.localeCompare(bGenre)
+        }
         case 'dateAdded':
-        default:
-          return parseInt(a.id) - parseInt(b.id) // Assuming ID correlates with date added
+        default: {
+          // Sort by actual collection date (newest first)
+          const aDate = a.dateAdded ? new Date(a.dateAdded).getTime() : 0
+          const bDate = b.dateAdded ? new Date(b.dateAdded).getTime() : 0
+          return bDate - aDate // Newest additions first
+        }
       }
     })
 

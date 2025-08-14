@@ -5,6 +5,7 @@ import { VinylRecord } from '../data/vinylRecords'
 import { ImageWithFallback } from './figma/ImageWithFallback'
 import { Button } from './ui/button'
 import { VinylCard } from './VinylCard'
+import { GenreTags } from './ui/GenreTag'
 
 type FilterType = 'genre' | 'artist' | 'label' | 'year'
 
@@ -378,13 +379,12 @@ export function AlbumDetailPage({
                   <div className="text-sm font-black tracking-wide uppercase text-white/60 mb-2">
                     Genre
                   </div>
-                  <div
-                    className="text-xl font-bold text-white hover:text-bn-electric-teal transition-colors duration-300 cursor-pointer"
-                    onClick={() => handleFilterClick('genre', record.genre)}
-                    title={`View all ${record.genre} records`}
-                  >
-                    {record.genre}
-                  </div>
+                  <GenreTags 
+                    genres={record.genres}
+                    onGenreClick={(genre) => handleFilterClick('genre', genre)}
+                    size="lg"
+                    className="mt-2"
+                  />
                 </div>
 
                 <div>

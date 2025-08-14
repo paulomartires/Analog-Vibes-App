@@ -1,6 +1,5 @@
 import { createClient, SupabaseClient, User, Session, AuthError } from '@supabase/supabase-js'
 import { VinylRecord } from '../data/vinylRecords'
-import { DiscogsRelease, DiscogsMasterRelease } from './discogsService'
 
 // Database Types
 export interface Profile {
@@ -548,7 +547,7 @@ class SupabaseService {
         catalog_number: vinylRecord.catalogNumber,
         cover_url: vinylRecord.coverUrl,
         tracks: vinylRecord.tracks,
-        genres: [vinylRecord.genre], // Convert single genre to array
+        genres: vinylRecord.genres, // Already an array
         // Add other fields as needed
       })
   }
@@ -563,7 +562,7 @@ class SupabaseService {
       artist: record.artist,
       year: record.original_year?.toString() || record.release_date?.substring(0, 4) || '',
       label: record.labels?.[0]?.name || '',
-      genre: record.genres?.[0] || 'Unknown',
+      genres: record.genres || ['Unknown'],
       catalogNumber: record.catalog_number || '',
       coverUrl: record.cover_url || '',
       tracks: record.tracks || [],
@@ -596,7 +595,7 @@ class SupabaseService {
    */
   async testConnection(): Promise<{ success: boolean; message: string }> {
     try {
-      const { data, error } = await this.client
+      const { error } = await this.client
         .from('profiles')
         .select('count')
         .limit(1)

@@ -9,7 +9,7 @@ export interface PublicVinylRecord {
   artist: string
   year: string
   label: string
-  genre: string
+  genres: string[] // Changed from genre to genres array
   catalog_number: string
   cover_url: string
   description?: string
@@ -133,7 +133,7 @@ class PublicCollectionService {
     const { data, error } = await this.client
       .from('vinyl_collection')
       .select('*')
-      .or(`title.ilike.%${query}%,artist.ilike.%${query}%,label.ilike.%${query}%,genre.ilike.%${query}%`)
+      .or(`title.ilike.%${query}%,artist.ilike.%${query}%,label.ilike.%${query}%,genres.cs.["${query}"]`)
       .order('artist', { ascending: true })
 
     if (error) throw error
@@ -271,14 +271,15 @@ class PublicCollectionService {
       artist: record.artist,
       year: record.year || '',
       label: record.label || '',
-      genre: record.genre || 'Unknown',
+      genres: record.genres || ['Unknown'], // Now using genres array
       catalogNumber: record.catalog_number || '',
       coverUrl: record.cover_url || '',
       tracks: record.tracks || [],
       description: record.description,
       producer: record.producer,
       recordingDate: record.recording_date,
-      releaseDate: record.release_date
+      releaseDate: record.release_date,
+      dateAdded: record.created_at // Map database created_at to dateAdded
     }))
   }
 
@@ -292,7 +293,7 @@ class PublicCollectionService {
       artist: vinylRecord.artist,
       year: vinylRecord.year,
       label: vinylRecord.label,
-      genre: vinylRecord.genre,
+      genres: vinylRecord.genres, // Now using genres array
       catalog_number: vinylRecord.catalogNumber,
       cover_url: vinylRecord.coverUrl,
       tracks: vinylRecord.tracks || [],
